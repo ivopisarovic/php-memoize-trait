@@ -1,0 +1,9 @@
+{
+    "name": "ivopisarovic/php-memoize-trait",
+    "type": "library",
+    "require": {
+        "phpunit/phpunit": "^7.3"
+    },
+    "description": "Memoiyation trait for PHP.",
+    "version": "1.0.0"
+}

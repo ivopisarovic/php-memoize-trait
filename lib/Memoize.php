@@ -15,8 +15,8 @@ trait Memoize {
 	}
 
 	private function getMethod($method) {
-		if (strpos($method, '_') === 0) {
-			return substr($method, 1);
+		if (substr($method, -6) === 'Cached') {
+			return substr($method, 0, strlen($method) - 6);
 		}
 		return null;
 	}

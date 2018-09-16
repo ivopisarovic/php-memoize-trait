@@ -1,49 +1,51 @@
 <?php
 
-require 'lib/Memoizer.php';
-require 'lib/MemoizerCache.php';
-require 'lib/Memoize.php';
+require __DIR__.'/../lib/Memoizer.php';
+require __DIR__.'/../lib/MemoizerCache.php';
+require __DIR__.'/../lib/Memoize.php';
 
-class MemoizeTest extends PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class MemoizeTest extends TestCase {
 	public function testMemoizeNoArguments() {
 		$c = new SimpleCounter();
-		$c->_call();
-		$c->_call();
+		$c->callCached();
+		$c->callCached();
 
 		$this->assertEquals(1, $c->calls);
 	}
 
 	public function testMemoizeWithArguments() {
 		$c = new ArgumentCounter();
-		$c->_call('one');
-		$c->_call('two');
-		$c->_call('two');
+		$c->callCached('one');
+		$c->callCached('two');
+		$c->callCached('two');
 
 		$this->assertEquals(1, $c->calls['one']);
 		$this->assertEquals(1, $c->calls['two']);
 	}
 
 	public function testBadMethod() {
-		$this->setExpectedException('PHPUnit_Framework_Error');
+		$this->expectException(TypeError::class);
 
 		$c = new SimpleCounter();
-		$c->_missingMethod();
+		$c->missingMethodCached();
 	}
 
 	public function testMemoizeFactorial() {
 		$m = new Math();
-		$m->_factorial(100);
-		$m->_factorial(100);
-		$m->_factorial(100);
+		$m->factorialCached(100);
+		$m->factorialCached(100);
+		$m->factorialCached(100);
 
 		$this->assertEquals(101, $m->calls);
 	}
 
 	public function testMemoizeMagic() {
 		$m = new Magic();
-		$m->_dazzle();
-		$m->_dazzle();
-		$m->_dazzle();
+		$m->dazzleCached();
+		$m->dazzleCached();
+		$m->dazzleCached();
 
 		$this->assertEquals(1, $m->calls);
 	}
