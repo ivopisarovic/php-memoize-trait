@@ -1,5 +1,7 @@
 <?php
 
+namespace Memoize;
+
 trait Memoize {
 	private $memoizer;
 

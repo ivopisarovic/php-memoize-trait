@@ -1,5 +1,7 @@
 <?php
 
+namespace Memoize;
+
 interface MemoizerCache {
 	function get($key, callable $callback = null);
 	function set($key, $value);

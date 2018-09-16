@@ -1,5 +1,7 @@
 <?php
 
+namespace Memoize;
+
 class Memoizer {
 	private $cache;
 

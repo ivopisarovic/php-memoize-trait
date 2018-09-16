@@ -5,5 +5,8 @@
         "phpunit/phpunit": "^7.3"
     },
     "description": "Memoiyation trait for PHP.",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "autoload": {
+      "psr-4": {"Memoize\\": "src/"}
+    }
 }

@@ -1,8 +1,10 @@
 <?php
 
-require __DIR__.'/../lib/Memoizer.php';
-require __DIR__.'/../lib/MemoizerCache.php';
-require __DIR__.'/../lib/Memoize.php';
+namespace Memoize;
+
+require __DIR__ . '/../src/Memoizer.php';
+require __DIR__ . '/../src/MemoizerCache.php';
+require __DIR__ . '/../src/Memoize.php';
 
 use PHPUnit\Framework\TestCase;
 
@@ -26,7 +28,7 @@ class MemoizeTest extends TestCase {
 	}
 
 	public function testBadMethod() {
-		$this->expectException(TypeError::class);
+		$this->expectException(\TypeError::class);
 
 		$c = new SimpleCounter();
 		$c->missingMethodCached();
