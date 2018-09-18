@@ -51,6 +51,26 @@ class MemoizeTest extends TestCase {
 
 		$this->assertEquals(1, $m->calls);
 	}
+
+    public function testMemoizeViaFunction() {
+        $c = new SimpleCounterWithoutTrait();
+        memoize([$c, 'call']);
+        memoize([$c, 'call']);
+
+        $this->assertEquals(1, $c->calls);
+    }
+
+    public function testMemoizeViaFunctionWithArguments() {
+        $c = new ArgumentCounterWithoutTrait();
+
+        memoize([$c, 'call'], 'one');
+        memoize([$c, 'call'], 'two');
+        memoize([$c, 'call'], 'two');
+
+        $this->assertEquals(1, $c->calls['one']);
+        $this->assertEquals(1, $c->calls['two']);
+    }
+
 }
 
 class SimpleCounter {
@@ -93,4 +113,21 @@ class Magic {
 	public function __call($method, $params) {
 		return $this->m($method, $params);
 	}
+}
+
+class SimpleCounterWithoutTrait {
+    public $calls = 0;
+    public function call() {
+        $this->calls++;
+    }
+}
+
+class ArgumentCounterWithoutTrait {
+    public $calls = [];
+    public function call($arg) {
+        if (!array_key_exists($arg, $this->calls)) {
+            $this->calls[$arg] = 0;
+        }
+        $this->calls[$arg]++;
+    }
 }

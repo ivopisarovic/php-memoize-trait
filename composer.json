@@ -4,8 +4,8 @@
     "require": {
         "phpunit/phpunit": "^7.3"
     },
-    "description": "Memoiyation trait for PHP.",
-    "version": "1.0.0",
+    "description": "Memoization trait for PHP.",
+    "version": "1.0.1",
     "autoload": {
       "psr-4": {"Memoize\\": "src/"},
       "files": ["src/functions.php"]
