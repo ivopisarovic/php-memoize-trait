@@ -11,17 +11,17 @@ use PHPUnit\Framework\TestCase;
 class MemoizeTest extends TestCase {
 	public function testMemoizeNoArguments() {
 		$c = new SimpleCounter();
-		$c->callCached();
-		$c->callCached();
+		$c->_call();
+		$c->_call();
 
 		$this->assertEquals(1, $c->calls);
 	}
 
 	public function testMemoizeWithArguments() {
 		$c = new ArgumentCounter();
-		$c->callCached('one');
-		$c->callCached('two');
-		$c->callCached('two');
+		$c->_call('one');
+		$c->_call('two');
+		$c->_call('two');
 
 		$this->assertEquals(1, $c->calls['one']);
 		$this->assertEquals(1, $c->calls['two']);
@@ -31,23 +31,23 @@ class MemoizeTest extends TestCase {
 		$this->expectException(\TypeError::class);
 
 		$c = new SimpleCounter();
-		$c->missingMethodCached();
+		$c->_missingMethod();
 	}
 
 	public function testMemoizeFactorial() {
 		$m = new Math();
-		$m->factorialCached(100);
-		$m->factorialCached(100);
-		$m->factorialCached(100);
+		$m->_factorial(100);
+		$m->_factorial(100);
+		$m->_factorial(100);
 
 		$this->assertEquals(101, $m->calls);
 	}
 
 	public function testMemoizeMagic() {
 		$m = new Magic();
-		$m->dazzleCached();
-		$m->dazzleCached();
-		$m->dazzleCached();
+		$m->_dazzle();
+		$m->_dazzle();
+		$m->_dazzle();
 
 		$this->assertEquals(1, $m->calls);
 	}
