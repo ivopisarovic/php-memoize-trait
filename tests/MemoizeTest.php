@@ -11,17 +11,17 @@ use PHPUnit\Framework\TestCase;
 class MemoizeTest extends TestCase {
 	public function testMemoizeNoArguments() {
 		$c = new SimpleCounter();
-		$c->_call();
-		$c->_call();
+		$c->call();
+		$c->call();
 
 		$this->assertEquals(1, $c->calls);
 	}
 
 	public function testMemoizeWithArguments() {
 		$c = new ArgumentCounter();
-		$c->_call('one');
-		$c->_call('two');
-		$c->_call('two');
+		$c->call('one');
+		$c->call('two');
+		$c->call('two');
 
 		$this->assertEquals(1, $c->calls['one']);
 		$this->assertEquals(1, $c->calls['two']);
@@ -31,23 +31,23 @@ class MemoizeTest extends TestCase {
 		$this->expectException(\TypeError::class);
 
 		$c = new SimpleCounter();
-		$c->_missingMethod();
+		$c->missingMethod();
 	}
 
 	public function testMemoizeFactorial() {
 		$m = new Math();
-		$m->_factorial(100);
-		$m->_factorial(100);
-		$m->_factorial(100);
+		$m->factorial(100);
+		$m->factorial(100);
+		$m->factorial(100);
 
 		$this->assertEquals(101, $m->calls);
 	}
 
 	public function testMemoizeMagic() {
 		$m = new Magic();
-		$m->_dazzle();
-		$m->_dazzle();
-		$m->_dazzle();
+		$m->dazzle();
+		$m->dazzle();
+		$m->dazzle();
 
 		$this->assertEquals(1, $m->calls);
 	}
@@ -76,7 +76,7 @@ class MemoizeTest extends TestCase {
 class SimpleCounter {
 	use Memoize;
 	public $calls = 0;
-	public function call() {
+	public function _call() {
 		$this->calls++;
 	}
 }
@@ -84,7 +84,7 @@ class SimpleCounter {
 class ArgumentCounter {
 	use Memoize;
 	public $calls = [];
-	public function call($arg) {
+	public function _call($arg) {
 		if (!array_key_exists($arg, $this->calls)) {
 			$this->calls[$arg] = 0;
 		}
@@ -95,7 +95,7 @@ class ArgumentCounter {
 class Math {
 	use memoize;
 	public $calls = 0;
-	public function factorial($i) {
+	public function _factorial($i) {
 		$this->calls++;
 		return ($i < 1) ? 1 : $i * $this->factorial($i - 1);
 	}
@@ -106,7 +106,7 @@ class Magic {
 		__call as m;
 	}
 	public $calls = 0;
-	public function dazzle() {
+	public function _dazzle() {
 		$this->calls++;
 	}
 

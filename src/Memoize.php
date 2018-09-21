@@ -8,7 +8,7 @@ trait Memoize {
     public function __call($method, $params) {
         $cachedMethod = $this->getCachedMethod($method);
 
-        if ($cachedMethod === null && is_callable(['parent', $method])) {
+        if ($cachedMethod === null && is_callable(['parent', '__call'])) {
             return parent::__call($method, $params);
         } else {
             return $this->memoize($cachedMethod, $params);
@@ -24,8 +24,9 @@ trait Memoize {
     }
 
     private function getCachedMethod($method) {
-        if (substr($method, 0, 1) === '_') {
-            return substr($method, 1);
+        $targetMethod = '_' . $method;
+        if (method_exists($this, $targetMethod)) {
+            return $targetMethod;
         } else {
             return null;
         }
