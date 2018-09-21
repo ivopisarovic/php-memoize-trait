@@ -15,6 +15,17 @@ trait Memoize {
         }
     }
 
+    // Support for Larvel Model's getAttribute
+    public function getAttribute($key) {
+        $method = 'get' . $key . 'Attribute';
+        $cachedMethod = $this->getCachedMethod($method);
+        if ($cachedMethod === null) {
+            return parent::getAttribute($key);
+        } else {
+            return $this->memoize($cachedMethod, []);
+        }
+    }
+
     public function memoize($method, $params)
     {
         if (!isset($this->memoizer)) {
