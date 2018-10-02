@@ -28,9 +28,12 @@ trait Memoize {
 
     public function memoize($method, $params)
     {
+        preventLooping($method, $params);
+
         if (!isset($this->memoizer)) {
             $this->memoizer = new Memoizer(new InMemoryMemoizerCache());
         }
+
         return $this->memoizer->memoize([$this, $method], $params);
     }
 
@@ -42,4 +45,5 @@ trait Memoize {
             return null;
         }
     }
+
 }
