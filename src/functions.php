@@ -21,11 +21,11 @@ function preventLooping($method, $params)
 
     $GLOBALS['methodCounter']++;
 
-    if($GLOBALS['methodCounter'] > 10000) {
+    if($GLOBALS['methodCounter'] > 100000) {
         Log::info($method.' : '. join(',', $params));
     }
 
-    if($GLOBALS['methodCounter'] > 11000) {
+    if($GLOBALS['methodCounter'] > 101000) {
         Log::info('ERROR! Application was killed by X-MEN to prevent looping.');
         exit;
     }
